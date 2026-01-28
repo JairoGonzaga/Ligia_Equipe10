@@ -69,10 +69,10 @@ O modelo utiliza o algoritmo XGBoost, treinado para identificar padrões em vari
 Nota: O modelo atual foi otimizado para a versão do scikit-learn 1.7.2. Caso ocorra um aviso de InconsistentVersionWarning, verifique as notas de versão no arquivo requirements.txt.
 
 👥 Equipe 10
-Jairo Gonzaga - jcgn
-Victoria Pessoa - vpbm
-Felipe de Labio
-Jose Guilherme - jgtn
-Ivan Bezerra - iceb
-Maria beatriz
-Thiago Jose - tjbmo
+ - Jairo Gonzaga - jcgn
+ - Victoria Pessoa - vpbm
+ - Felipe de Labio
+ - Jose Guilherme - jgtn
+ - Ivan Bezerra - iceb
+ - Maria beatriz
+ - Thiago Jose - tjbmo
