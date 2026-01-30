@@ -31,6 +31,7 @@ cd Ligia_Equipe10
 Recomendamos o uso de um ambiente virtual:
 
 Bash
+- Vale ressaltar que, precisa-se ter o python 3.11 +. Com isso se não conseguir instalar o scikit-learn necessario, por favor baixe um python recente e rode com python3."versao" -m venv .venv
 ```
 python -m venv .venv
 ```
@@ -49,7 +50,7 @@ pip install -r requirements.txt
 ## Rodar o Dashboard
 ```
 cd src
-streamlit run inference.py
+streamlit run Inference.py
 ```
 # Requisitos:
 ```
@@ -61,7 +62,7 @@ numpy==2.4.1
 xgboost==3.1.3
 matplotlib==3.10.8
 seaborn==0.13.2
-python == 3.12
+python == 3.11+
 ```
 🧠 Detalhes do Modelo
 O modelo utiliza o algoritmo XGBoost, treinado para identificar padrões em variáveis como idade, colesterol, pressão arterial e nível de atividade física.
