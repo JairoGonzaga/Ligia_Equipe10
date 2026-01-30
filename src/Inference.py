@@ -94,7 +94,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("**Versões compatíveis:**")
     st.markdown("- scikit-learn: 1.7.2")
-    st.markdown("- Modelo: RandomForest/XGBoost")
+    st.markdown("- Modelo: XGBoost")
     st.markdown("- Dados: Heart Disease UCI")
     
     st.markdown("---")
@@ -337,7 +337,7 @@ if model is not None:
         **Especificações técnicas:**
         
         - **Framework:** scikit-learn 1.7.2
-        - **Algoritmo:** Random Forest / XGBoost (conforme treinamento)
+        - **Algoritmo:**  XGBoost (conforme treinamento)
         - **Dataset:** Heart Disease UCI (303 amostras)
         - **Features:** 13 características clínicas
         - **Métrica otimizada:** Recall (detecção de casos positivos)
