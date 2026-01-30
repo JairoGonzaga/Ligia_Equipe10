@@ -34,7 +34,7 @@ if not check_environment():
 
 # Configuração da página
 st.set_page_config(
-    page_title="Preditor de Risco Cardíaco - Modelo 1.6.1",
+    page_title="Preditor de Risco Cardíaco - Modelo 1.7.2",
     page_icon="❤️",
     layout="wide"
 )
@@ -42,7 +42,7 @@ st.set_page_config(
 # Título
 st.title("❤️ Preditor de Risco Cardíaco")
 st.markdown("---")
-st.markdown("**Versão do modelo:** scikit-learn 1.6.1")
+st.markdown("**Versão do modelo:** scikit-learn 1.7.2")
 st.markdown("**Status:** ✅ Modelo compatível carregado")
 
 # Carregar o modelo
@@ -93,7 +93,7 @@ with st.sidebar:
     
     st.markdown("---")
     st.markdown("**Versões compatíveis:**")
-    st.markdown("- scikit-learn: 1.6.1")
+    st.markdown("- scikit-learn: 1.7.2")
     st.markdown("- Modelo: RandomForest/XGBoost")
     st.markdown("- Dados: Heart Disease UCI")
     
@@ -111,41 +111,43 @@ if model is not None:
     
     # Organizar em duas colunas
     col1, col2 = st.columns(2)
-    
+
     with col1:
-        # Dados numéricos
-        idade = st.slider("Idade (anos)", 20, 100, 50, 1)
-        pressao = st.slider("Pressão arterial (mmHg)", 80, 200, 120, 1)
-        colesterol = st.slider("Colesterol (mg/dL)", 100, 600, 200, 1)
-        freq_max = st.slider("Frequência cardíaca máxima (bpm)", 60, 220, 150, 1)
-        
+        # Adicionando a KEY para vincular ao session_state
+        idade = st.slider("Idade (anos)", 20, 100, key="idade")
+        pressao = st.slider("Pressão arterial (mmHg)", 80, 200, key="pressao")
+        colesterol = st.slider("Colesterol (mg/dL)", 100, 600, key="colesterol")
+        freq_max = st.slider("Frequência cardíaca máxima (bpm)", 60, 220, key="freq_max")
+
     with col2:
-        # Dados categóricos
-        sexo = st.selectbox("Sexo", ["Masculino (M)", "Feminino (F)"])
-        
+        sexo = st.selectbox("Sexo", ["Masculino (M)", "Feminino (F)"], key="sexo")
+
         tipo_dor = st.selectbox(
             "Tipo de dor no peito",
-            ["ASY (Assintomático)", "ATA (Angina atípica)", "NAP (Sem dor)", "TA (Angina típica)"]
+            ["ASY (Assintomático)", "ATA (Angina atípica)", "NAP (Sem dor)", "TA (Angina típica)"],
+            key="tipo_dor"
         )
-        
-        glicose = st.selectbox("Diabetes (glicose > 120 mg/dL)", ["Não", "Sim"])
-        
+
+        glicose = st.selectbox("Diabetes (glicose > 120 mg/dL)", ["Não", "Sim"], key="glicose")
+
         eletro = st.selectbox(
             "Resultado eletrocardiográfico",
-            ["Normal", "LVH (Hipertrofia ventricular)", "ST (Anormalidade)"]
+            ["Normal", "LVH (Hipertrofia ventricular)", "ST (Anormalidade)"],
+            key="eletro"
         )
     
     # Segunda linha de inputs
     col3, col4 = st.columns(2)
     
     with col3:
-        angina = st.selectbox("Angina no exercício", ["Não (N)", "Sim (Y)"])
-        oldpeak = st.slider("Depressão ST (Oldpeak)", 0.0, 6.0, 1.0, 0.1)
+        angina = st.selectbox("Angina no exercício", ["Não (N)", "Sim (Y)"], key="angina")
+        oldpeak = st.slider("Depressão ST (Oldpeak)", 0.0, 6.0, 1.0, 0.1, key="oldpeak")
     
     with col4:
         slope = st.selectbox(
             "Inclinação do segmento ST",
-            ["Up (Ascendente)", "Flat (Plana)", "Down (Descendente)"]
+            ["Up (Ascendente)", "Flat (Plana)", "Down (Descendente)"],
+            key="slope"
         )
     
     # Botão de análise
@@ -294,49 +296,49 @@ if model is not None:
         st.markdown("**Teste rápido com dados predefinidos:**")
         
         col_ex1, col_ex2 = st.columns(2)
-        
+
+
+        # 1. Defina as funções de preenchimento no topo (antes dos botões)
+        def preencher_saudavel():
+            st.session_state['idade'] = 35
+            st.session_state['pressao'] = 115
+            st.session_state['colesterol'] = 180
+            st.session_state['freq_max'] = 165
+            st.session_state['sexo'] = "Masculino (M)"
+            st.session_state['tipo_dor'] = "NAP (Sem dor)"
+            st.session_state['glicose'] = "Não"
+            st.session_state['eletro'] = "Normal"
+            st.session_state['angina'] = "Não (N)"
+            st.session_state['oldpeak'] = 0.5
+            st.session_state['slope'] = "Up (Ascendente)"
+
+
+        def preencher_risco():
+            st.session_state['idade'] = 68
+            st.session_state['pressao'] = 180
+            st.session_state['colesterol'] = 350
+            st.session_state['freq_max'] = 95
+            st.session_state['sexo'] = "Feminino (F)"
+            st.session_state['tipo_dor'] = "ASY (Assintomático)"
+            st.session_state['glicose'] = "Sim"
+            st.session_state['eletro'] = "LVH (Hipertrofia ventricular)"
+            st.session_state['angina'] = "Sim (Y)"
+            st.session_state['oldpeak'] = 4.2
+            st.session_state['slope'] = "Down (Descendente)"
+
+
+        # 2. Nos botões, use o parâmetro on_click
         with col_ex1:
-            if st.button("👤 Paciente Saudável (exemplo)"):
-                # Preencher automaticamente com dados de paciente saudável
-                st.session_state.update({
-                    'idade': 35,
-                    'pressao': 115,
-                    'colesterol': 180,
-                    'freq_max': 165,
-                    'sexo': "Masculino (M)",
-                    'tipo_dor': "NAP (Sem dor)",
-                    'glicose': "Não",
-                    'eletro': "Normal",
-                    'angina': "Não (N)",
-                    'oldpeak': 0.5,
-                    'slope': "Up (Ascendente)"
-                })
-                st.rerun()
-        
+            st.button("👤 Paciente Saudável (exemplo)", on_click=preencher_saudavel, use_container_width=True)
+
         with col_ex2:
-            if st.button("⚠️ Paciente de Risco (exemplo)"):
-                # Preencher automaticamente com dados de paciente de risco
-                st.session_state.update({
-                    'idade': 68,
-                    'pressao': 180,
-                    'colesterol': 350,
-                    'freq_max': 95,
-                    'sexo': "Feminino (F)",
-                    'tipo_dor': "ASY (Assintomático)",
-                    'glicose': "Sim",
-                    'eletro': "LVH (Hipertrofia ventricular)",
-                    'angina': "Sim (Y)",
-                    'oldpeak': 4.2,
-                    'slope': "Down (Descendente)"
-                })
-                st.rerun()
-    
+            st.button("⚠️ Paciente de Risco (exemplo)", on_click=preencher_risco, use_container_width=True)
     # Informações sobre o modelo
     with st.expander("🔧 Informações Técnicas do Modelo"):
         st.markdown("""
         **Especificações técnicas:**
         
-        - **Framework:** scikit-learn 1.6.1
+        - **Framework:** scikit-learn 1.7.2
         - **Algoritmo:** Random Forest / XGBoost (conforme treinamento)
         - **Dataset:** Heart Disease UCI (303 amostras)
         - **Features:** 13 características clínicas
@@ -375,7 +377,7 @@ else:
     2. **Instale a versão correta do scikit-learn:**
        ```bash
        pip uninstall scikit-learn -y
-       pip install scikit-learn==1.6.1
+       pip install scikit-learn==1.7.2
        ```
     
     3. **Recarregue esta página ou reinicie o servidor**
